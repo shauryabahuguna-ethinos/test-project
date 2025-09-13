@@ -9,7 +9,8 @@ import {
   Clock,
   Plus
 } from "lucide-react";
-import type { Task, CalendarEvent } from "@shared/types";
+import type { Task } from "@shared/schema";
+import type { CalendarEvent } from "@shared/types";
 import { formatDuration, getPriorityColor } from "@/lib/utils";
 
 interface CalendarViewProps {

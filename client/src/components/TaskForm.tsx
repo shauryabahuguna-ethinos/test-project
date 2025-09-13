@@ -9,17 +9,25 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CalendarIcon, Sparkles } from "lucide-react";
 import { format } from "date-fns";
-import type { Task } from "@shared/types";
+import type { Task } from "@shared/schema";
 import { cn, getPriorityLabel } from "@/lib/utils";
+import { useCreateTask, useUpdateTask } from "@/hooks/useTasks";
+import { useAnalyzeTask } from "@/hooks/useAI";
+import { useToast } from "@/hooks/use-toast";
 
 interface TaskFormProps {
   task?: Partial<Task>;
-  onSubmit: (taskData: Omit<Task, 'id' | 'createdAt' | 'updatedAt'>) => void;
+  onSubmit?: (task: Task) => void;
   onCancel?: () => void;
-  isLoading?: boolean;
 }
 
-export default function TaskForm({ task, onSubmit, onCancel, isLoading }: TaskFormProps) {
+export default function TaskForm({ task, onSubmit, onCancel }: TaskFormProps) {
+  const { toast } = useToast();
+  const createTask = useCreateTask();
+  const updateTask = useUpdateTask();
+  const analyzeTask = useAnalyzeTask();
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  
   const [formData, setFormData] = useState({
     title: task?.title || "",
     description: task?.description || "",
@@ -32,20 +40,80 @@ export default function TaskForm({ task, onSubmit, onCancel, isLoading }: TaskFo
 
   const [showAISuggestions, setShowAISuggestions] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({
-      ...formData,
-      actualTime: task?.actualTime,
-      scheduledStart: task?.scheduledStart,
-      scheduledEnd: task?.scheduledEnd
-    });
-    console.log('Task form submitted:', formData);
+    
+    try {
+      if (task?.id) {
+        // Update existing task
+        const updatedTask = await updateTask.mutateAsync({
+          id: task.id,
+          updates: formData
+        });
+        toast({
+          title: "Task updated",
+          description: "Your task has been successfully updated."
+        });
+        onSubmit?.(updatedTask);
+      } else {
+        // Create new task
+        const result = await createTask.mutateAsync(formData);
+        toast({
+          title: "Task created",
+          description: result.aiAnalysis ? 
+            "Task created with AI suggestions applied." :
+            "Your task has been successfully created."
+        });
+        onSubmit?.(result.task);
+      }
+      onCancel?.();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: task?.id ? "Failed to update task" : "Failed to create task",
+        variant: "destructive"
+      });
+    }
   };
 
-  const handleAIOptimize = () => {
-    setShowAISuggestions(!showAISuggestions);
-    console.log('AI optimization requested for task:', formData.title);
+  const handleAIOptimize = async () => {
+    if (!formData.title.trim()) {
+      toast({
+        title: "Title required",
+        description: "Please enter a task title for AI analysis.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setIsAnalyzing(true);
+    try {
+      const analysis = await analyzeTask.mutateAsync({ 
+        title: formData.title, 
+        description: formData.description 
+      });
+      
+      // Apply AI suggestions
+      setFormData(prev => ({
+        ...prev,
+        priority: analysis.suggestedPriority,
+        estimatedTime: analysis.estimatedTime
+      }));
+      
+      setShowAISuggestions(true);
+      toast({
+        title: "AI Analysis Complete",
+        description: `Priority: ${analysis.suggestedPriority}, Time: ${analysis.estimatedTime} mins. Complexity: ${analysis.complexity}`
+      });
+    } catch (error) {
+      toast({
+        title: "Analysis Failed",
+        description: "Could not analyze task. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
   };
 
   return (
@@ -177,8 +245,8 @@ export default function TaskForm({ task, onSubmit, onCancel, isLoading }: TaskFo
           )}
 
           <div className="flex flex-col sm:flex-row gap-2 pt-4">
-            <Button type="submit" disabled={isLoading} data-testid="button-submit-task" className="w-full sm:w-auto">
-              {isLoading ? 'Saving...' : task?.id ? 'Update Task' : 'Create Task'}
+            <Button type="submit" disabled={createTask.isPending || updateTask.isPending} data-testid="button-submit-task" className="w-full sm:w-auto">
+              {(createTask.isPending || updateTask.isPending) ? 'Saving...' : task?.id ? 'Update Task' : 'Create Task'}
             </Button>
             {onCancel && (
               <Button type="button" variant="outline" onClick={onCancel} data-testid="button-cancel-task" className="w-full sm:w-auto">

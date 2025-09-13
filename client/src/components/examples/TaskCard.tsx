@@ -1,5 +1,5 @@
 import TaskCard from '../TaskCard'
-import type { Task } from '@shared/types'
+import type { Task } from '@shared/schema'
 
 export default function TaskCardExample() {
   //todo: remove mock functionality

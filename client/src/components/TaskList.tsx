@@ -14,7 +14,7 @@ import {
   Plus
 } from "lucide-react";
 import TaskCard from "./TaskCard";
-import type { Task } from "@shared/types";
+import type { Task } from "@shared/schema";
 
 interface TaskListProps {
   tasks?: Task[];

@@ -5,7 +5,7 @@ import { Clock, Calendar, MoreVertical, Play, Pause, Check } from "lucide-react"
 import PriorityIndicator from "./PriorityIndicator";
 import ProgressBar from "./ProgressBar";
 import { formatDuration, getStatusColor } from "@/lib/utils";
-import type { Task } from "@shared/types";
+import type { Task } from "@shared/schema";
 import { useState } from "react";
 
 interface TaskCardProps {

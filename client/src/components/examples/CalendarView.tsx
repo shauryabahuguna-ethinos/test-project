@@ -1,5 +1,5 @@
 import CalendarView from '../CalendarView'
-import type { Task } from '@shared/types'
+import type { Task } from '@shared/schema'
 
 export default function CalendarViewExample() {
   //todo: remove mock functionality

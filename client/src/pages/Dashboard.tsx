@@ -4,7 +4,9 @@ import Analytics from "@/components/Analytics";
 import TaskCard from "@/components/TaskCard";
 import ProgressBar from "@/components/ProgressBar";
 import { Plus, Calendar, Clock, Target, TrendingUp } from "lucide-react";
-import type { Task } from "@shared/types";
+import type { Task } from "@shared/schema";
+import { useTasks } from "@/hooks/useTasks";
+import { useAnalytics } from "@/hooks/useAnalytics";
 
 interface DashboardProps {
   onCreateTask?: () => void;
@@ -12,39 +14,28 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ onCreateTask, onNavigate }: DashboardProps) {
-  //todo: remove mock functionality
-  const upcomingTasks: Task[] = [
-    {
-      id: "1",
-      title: "Review AI scheduling algorithm",
-      description: "Test the new intelligent task prioritization system",
-      priority: 1,
-      estimatedTime: 120,
-      deadline: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
-      progress: 45,
-      status: 'in-progress',
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },
-    {
-      id: "2",
-      title: "Update calendar integration",
-      description: "Implement drag-and-drop functionality",
-      priority: 2,
-      estimatedTime: 90,
-      deadline: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-      progress: 20,
-      status: 'pending',
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }
-  ];
+  const { data: tasks = [], isLoading: tasksLoading } = useTasks();
+  const { data: analytics, isLoading: analyticsLoading } = useAnalytics();
+  
+  // Get upcoming tasks (next 3 tasks with deadlines or in-progress)
+  const upcomingTasks = tasks
+    .filter(task => task.status === 'in-progress' || 
+                   (task.deadline && new Date(task.deadline) > new Date()))
+    .sort((a, b) => {
+      if (a.status === 'in-progress' && b.status !== 'in-progress') return -1;
+      if (b.status === 'in-progress' && a.status !== 'in-progress') return 1;
+      if (a.deadline && b.deadline) {
+        return new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
+      }
+      return 0;
+    })
+    .slice(0, 3);
 
   const todaysStats = {
-    totalTasks: 8,
-    completedTasks: 3,
-    inProgressTasks: 2,
-    productivityScore: 85
+    totalTasks: analytics?.totalTasks || 0,
+    completedTasks: analytics?.completedTasks || 0,
+    inProgressTasks: analytics?.inProgressTasks || 0,
+    productivityScore: analytics?.productivityScore || 0
   };
 
   return (
@@ -134,14 +125,30 @@ export default function Dashboard({ onCreateTask, onNavigate }: DashboardProps) 
             </Button>
           </div>
           <div className="space-y-3">
-            {upcomingTasks.map((task) => (
-              <TaskCard 
-                key={task.id} 
-                task={task}
-                onEdit={(task) => console.log('Edit task:', task)}
-                onStatusChange={(id, status) => console.log('Status change:', id, status)}
-              />
-            ))}
+            {tasksLoading ? (
+              <div className="space-y-3">
+                {[1, 2, 3].map(i => (
+                  <div key={i} className="h-24 bg-muted animate-pulse rounded-lg" />
+                ))}
+              </div>
+            ) : upcomingTasks.length > 0 ? (
+              upcomingTasks.map((task) => (
+                <TaskCard 
+                  key={task.id} 
+                  task={task}
+                  onEdit={(task) => console.log('Edit task:', task)}
+                  onStatusChange={(id, status) => console.log('Status change:', id, status)}
+                />
+              ))
+            ) : (
+              <div className="text-center py-8 text-muted-foreground">
+                <Target className="w-12 h-12 mx-auto mb-2" />
+                <p>No upcoming tasks</p>
+                <Button onClick={onCreateTask} variant="ghost" size="sm" className="mt-2">
+                  Create your first task
+                </Button>
+              </div>
+            )}
           </div>
         </div>
 

@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Brain, Sparkles, Zap, Target, Clock, FileText } from "lucide-react";
-import type { AIGeneratedContent } from "@shared/types";
+import type { AIGeneratedContent } from "@shared/schema";
 
 export default function AIAssistant() {
   const handleContentGeneration = (content: Omit<AIGeneratedContent, 'id' | 'createdAt'>) => {
