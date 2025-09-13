@@ -1,0 +1,115 @@
+# AI-Powered Task Management Application
+
+## Overview
+A web-based **Next.js 14+** application designed to enhance personal productivity through intelligent task management, AI-driven scheduling, calendar integration, and content generation.  
+
+The system leverages **Gemini/Mistral APIs** (with fallback algorithms) to provide natural language task analysis, scheduling optimization, and content generation.
+
+---
+
+## Architecture
+- **Frontend:** Next.js 14+, TypeScript, Tailwind CSS  
+- **Calendar:** FullCalendar.js or React-Big-Calendar  
+- **Backend (API layer):** Node.js (Next.js API routes)  
+- **Data Storage:** JSON file-based persistence (via Node.js filesystem APIs)  
+- **Authentication:** Session-based, minimal complexity (single-user)  
+- **AI Services:** Gemini API (primary), Mistral (fallback), local rules (backup)  
+- **Deployment:** Any Node.js-capable hosting (Vercel/DigitalOcean/AWS)  
+
+---
+
+## Core Features
+1. **Task Management**
+   - CRUD operations (title, description, priority 1–5, estimated time, deadline)  
+   - Drag-and-drop scheduling into a calendar  
+   - Progress tracking with color-coded states  
+
+2. **AI-Powered Scheduling**
+   - AI prioritization & validation of time estimates  
+   - Scheduling optimization with working hours  
+   - Automatic rescheduling of incomplete tasks  
+
+3. **Calendar Integration**
+   - Hourly & monthly views  
+   - Read-only calendar sharing (availability links)  
+
+4. **Content Generation**
+   - Input or upload text → generate:  
+     - User stories  
+     - Acceptance criteria  
+     - Test scenarios  
+
+5. **Analytics**
+   - Task history & audit trail  
+   - Actual vs. estimated completion time  
+   - Pattern recognition for AI improvement  
+
+6. **Offline Support**
+   - Cached tasks available in view-only mode  
+
+---
+
+## Technical Requirements
+- **Performance**
+  - Sub-2s load times  
+  - Smooth drag & drop interactions  
+  - AI responses acceptable in 3–10s  
+
+- **Mobile Optimization**
+  - Responsive Tailwind UI  
+  - Touch-friendly interactions  
+
+- **Error Handling**
+  - Graceful fallback when AI quota exceeded  
+  - Clear error messages for the user  
+
+---
+
+## Development Roadmap
+
+### Phase 1: Foundation (2–3 weeks)
+- Next.js + TypeScript setup  
+- JSON file storage  
+- CRUD for tasks  
+- Calendar with hourly/monthly views  
+- Responsive UI base  
+
+### Phase 2: Smart Scheduling (2 weeks)
+- Scheduling algorithm (priority, deadline, time)  
+- Drag & drop calendar functionality  
+- Progress tracking slider & color coding  
+
+### Phase 3: AI Integration (1–2 weeks)
+- Gemini API integration  
+- AI-driven prioritization & validation  
+- Fallback mechanisms for AI limits  
+
+### Phase 4: Advanced Features (1 week)
+- Calendar sharing (read-only)  
+- AI-powered content generation  
+- Task history & analytics dashboard  
+- Offline view-only mode  
+
+### Phase 5: Polish & Deployment (1 week)
+- UI refinement & accessibility improvements  
+- Performance optimization  
+- Testing across devices  
+- Deployment setup & final documentation  
+
+---
+
+## Success Criteria
+- **AI Integration:** 95%+ successful API calls with fallbacks  
+- **Performance:** Sub-2s load & smooth UI interactions  
+- **Cross-Platform:** Consistent across browsers/devices  
+- **Data Integrity:** Zero data loss during normal use  
+- **Mobile Parity:** Complete feature access on mobile  
+
+---
+
+## Future Enhancements
+- Multi-user/team collaboration  
+- Migration from JSON to database  
+- Advanced analytics & insights  
+- External calendar integrations  
+- Native mobile apps (iOS/Android)
