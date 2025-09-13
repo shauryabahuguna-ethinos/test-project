@@ -93,7 +93,7 @@ export default function TaskForm({ task, onSubmit, onCancel, isLoading }: TaskFo
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="priority">Priority</Label>
               <Select
@@ -176,12 +176,12 @@ export default function TaskForm({ task, onSubmit, onCancel, isLoading }: TaskFo
             </div>
           )}
 
-          <div className="flex gap-2 pt-4">
-            <Button type="submit" disabled={isLoading} data-testid="button-submit-task">
+          <div className="flex flex-col sm:flex-row gap-2 pt-4">
+            <Button type="submit" disabled={isLoading} data-testid="button-submit-task" className="w-full sm:w-auto">
               {isLoading ? 'Saving...' : task?.id ? 'Update Task' : 'Create Task'}
             </Button>
             {onCancel && (
-              <Button type="button" variant="outline" onClick={onCancel} data-testid="button-cancel-task">
+              <Button type="button" variant="outline" onClick={onCancel} data-testid="button-cancel-task" className="w-full sm:w-auto">
                 Cancel
               </Button>
             )}

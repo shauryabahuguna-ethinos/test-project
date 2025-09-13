@@ -147,7 +147,7 @@ export default function Analytics({
       </div>
 
       {/* Detailed Analytics */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Priority Distribution */}
         <Card>
           <CardHeader>
@@ -193,7 +193,7 @@ export default function Analytics({
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-3 sm:gap-4">
               {Object.entries(statusDistribution).map(([status, count]) => {
                 const statusColors = {
                   'completed': 'text-chart-1',
@@ -203,8 +203,8 @@ export default function Analytics({
                 };
                 
                 return (
-                  <div key={status} className="text-center p-4 border rounded-md">
-                    <div className={`text-2xl font-bold ${statusColors[status as keyof typeof statusColors]}`}>
+                  <div key={status} className="text-center p-3 sm:p-4 border rounded-md">
+                    <div className={`text-xl sm:text-2xl font-bold ${statusColors[status as keyof typeof statusColors]}`}>
                       {count}
                     </div>
                     <div className="text-xs text-muted-foreground capitalize mt-1">
@@ -234,12 +234,12 @@ export default function Analytics({
               <Progress value={mockAnalytics.accuracyRate} className="h-2" />
             </div>
             
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-sm">
+              <div className="text-center sm:text-left">
                 <div className="text-muted-foreground">Under-estimated</div>
                 <div className="font-medium">15 tasks</div>
               </div>
-              <div>
+              <div className="text-center sm:text-left">
                 <div className="text-muted-foreground">Over-estimated</div>
                 <div className="font-medium">7 tasks</div>
               </div>

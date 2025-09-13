@@ -139,16 +139,17 @@ This feature will reduce manual planning time by 70% and improve task completion
         </div>
 
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as typeof activeTab)}>
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 h-auto">
             {contentTypes.map((type) => (
               <TabsTrigger 
                 key={type.id} 
                 value={type.id}
                 data-testid={`tab-${type.id}`}
-                className="text-xs"
+                className="text-xs py-2 px-3 gap-1"
               >
-                <type.icon className="w-4 h-4 mr-1" />
-                {type.label}
+                <type.icon className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="hidden sm:inline">{type.label}</span>
+                <span className="sm:hidden">{type.label.split(' ')[0]}</span>
               </TabsTrigger>
             ))}
           </TabsList>

@@ -55,12 +55,12 @@ export default function Calendar() {
   return (
     <div className="space-y-6" data-testid="calendar-page">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold">Calendar</h1>
-          <p className="text-muted-foreground">Drag tasks onto time slots or click to create new ones.</p>
+          <h1 className="text-2xl sm:text-3xl font-bold">Calendar</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">Drag tasks onto time slots or click to create new ones.</p>
         </div>
-        <Button onClick={() => handleCreateEvent(new Date())} className="gap-2">
+        <Button onClick={() => handleCreateEvent(new Date())} className="gap-2 w-full sm:w-auto">
           <CalendarIcon className="w-4 h-4" />
           Quick Schedule
         </Button>

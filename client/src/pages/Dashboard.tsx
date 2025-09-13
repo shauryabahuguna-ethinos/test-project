@@ -50,12 +50,12 @@ export default function Dashboard({ onCreateTask, onNavigate }: DashboardProps) 
   return (
     <div className="space-y-6" data-testid="dashboard-page">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold">Dashboard</h1>
-          <p className="text-muted-foreground">Welcome back! Here's your productivity overview.</p>
+          <h1 className="text-2xl sm:text-3xl font-bold">Dashboard</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">Welcome back! Here's your productivity overview.</p>
         </div>
-        <Button onClick={onCreateTask} data-testid="button-dashboard-create-task" className="gap-2">
+        <Button onClick={onCreateTask} data-testid="button-dashboard-create-task" className="gap-2 w-full sm:w-auto">
           <Plus className="w-4 h-4" />
           New Task
         </Button>
@@ -118,16 +118,17 @@ export default function Dashboard({ onCreateTask, onNavigate }: DashboardProps) 
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6">
         {/* Upcoming Tasks */}
-        <div className="lg:col-span-1 space-y-4">
+        <div className="xl:col-span-1 space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold">Upcoming Tasks</h3>
+            <h3 className="text-base sm:text-lg font-semibold">Upcoming Tasks</h3>
             <Button 
               variant="outline" 
               size="sm" 
               onClick={() => onNavigate?.('tasks')}
               data-testid="button-view-all-tasks"
+              className="text-xs sm:text-sm"
             >
               View All
             </Button>
@@ -145,8 +146,8 @@ export default function Dashboard({ onCreateTask, onNavigate }: DashboardProps) 
         </div>
 
         {/* Analytics Section */}
-        <div className="lg:col-span-2">
-          <h3 className="text-lg font-semibold mb-4">Performance Analytics</h3>
+        <div className="xl:col-span-2">
+          <h3 className="text-base sm:text-lg font-semibold mb-4">Performance Analytics</h3>
           <Analytics timeRange="week" />
         </div>
       </div>

@@ -75,24 +75,26 @@ export default function CalendarView({
     const weekDays = getWeekDays();
     
     return (
-      <div className="grid grid-cols-8 gap-1 text-xs">
-        <div className="p-2 font-medium">Time</div>
+      <div className="grid grid-cols-8 gap-0.5 sm:gap-1 text-xs min-w-[600px]">
+        <div className="p-1 sm:p-2 font-medium text-xs">Time</div>
         {weekDays.map((day, index) => (
-          <div key={index} className="p-2 text-center font-medium border-b">
-            <div>{daysOfWeek[index]}</div>
-            <div className="text-muted-foreground">{day.getDate()}</div>
+          <div key={index} className="p-1 sm:p-2 text-center font-medium border-b">
+            <div className="hidden sm:block">{daysOfWeek[index]}</div>
+            <div className="sm:hidden">{daysOfWeek[index].slice(0, 1)}</div>
+            <div className="text-muted-foreground text-xs">{day.getDate()}</div>
           </div>
         ))}
         
         {hours.map((hour) => (
           <>
-            <div key={`hour-${hour}`} className="p-1 text-right text-muted-foreground border-r">
-              {hour.toString().padStart(2, '0')}:00
+            <div key={`hour-${hour}`} className="p-0.5 sm:p-1 text-right text-muted-foreground border-r text-xs">
+              <span className="hidden sm:inline">{hour.toString().padStart(2, '0')}:00</span>
+              <span className="sm:hidden">{hour}</span>
             </div>
             {weekDays.map((day, dayIndex) => (
               <div
                 key={`${hour}-${dayIndex}`}
-                className="min-h-12 border border-border hover-elevate cursor-pointer relative"
+                className="min-h-8 sm:min-h-12 border border-border hover-elevate cursor-pointer relative"
                 onDragOver={handleDragOver}
                 onDrop={(e) => handleDrop(e, day, hour)}
                 onClick={() => onCreateEvent?.(day, hour)}
@@ -108,9 +110,9 @@ export default function CalendarView({
                   .map(task => (
                     <div
                       key={task.id}
-                      className={`absolute inset-1 p-1 rounded text-xs ${getPriorityColor(task.priority)} opacity-90`}
+                      className={`absolute inset-0.5 sm:inset-1 p-0.5 sm:p-1 rounded text-xs ${getPriorityColor(task.priority)} opacity-90`}
                     >
-                      <div className="truncate font-medium">{task.title}</div>
+                      <div className="truncate font-medium text-xs leading-tight">{task.title}</div>
                     </div>
                   ))
                 }
@@ -215,13 +217,13 @@ export default function CalendarView({
       </CardHeader>
       
       <CardContent className="p-0">
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto min-h-[400px]">
           {selectedView === 'week' && renderWeekView()}
           {selectedView === 'day' && renderDayView()}
           {selectedView === 'month' && (
-            <div className="p-6 text-center text-muted-foreground">
-              <CalendarIcon className="w-12 h-12 mx-auto mb-2 opacity-50" />
-              <p>Month view will be implemented with full calendar component</p>
+            <div className="p-4 sm:p-6 text-center text-muted-foreground">
+              <CalendarIcon className="w-8 h-8 sm:w-12 sm:h-12 mx-auto mb-2 opacity-50" />
+              <p className="text-sm sm:text-base">Month view will be implemented with full calendar component</p>
             </div>
           )}
         </div>

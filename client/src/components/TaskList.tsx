@@ -136,7 +136,7 @@ export default function TaskList({
       {/* Filters and Search */}
       <Card>
         <CardContent className="p-4">
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col lg:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -150,9 +150,9 @@ export default function TaskList({
               </div>
             </div>
             
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <Select value={filterPriority} onValueChange={(value) => setFilterPriority(value as any)}>
-                <SelectTrigger className="w-32" data-testid="select-filter-priority">
+                <SelectTrigger className="w-full sm:w-32" data-testid="select-filter-priority">
                   <Filter className="w-4 h-4 mr-1" />
                   <SelectValue placeholder="Priority" />
                 </SelectTrigger>
@@ -167,7 +167,7 @@ export default function TaskList({
               </Select>
 
               <Select value={sortBy} onValueChange={(value) => setSortBy(value as any)}>
-                <SelectTrigger className="w-32" data-testid="select-sort-by">
+                <SelectTrigger className="w-full sm:w-32" data-testid="select-sort-by">
                   <SortAsc className="w-4 h-4 mr-1" />
                   <SelectValue />
                 </SelectTrigger>
@@ -238,7 +238,7 @@ export default function TaskList({
           ) : (
             <div className={
               viewMode === "grid" 
-                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+                ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4"
                 : "space-y-3"
             }>
               {sortedTasks.map((task) => (

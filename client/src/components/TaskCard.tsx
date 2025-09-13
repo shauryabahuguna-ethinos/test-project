@@ -43,11 +43,11 @@ export default function TaskCard({ task, onEdit, onDelete, onStatusChange }: Tas
     >
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between gap-2">
-          <div className="flex-1 space-y-1">
-            <h3 className="font-semibold text-sm leading-tight">{task.title}</h3>
+          <div className="flex-1 space-y-1 min-w-0">
+            <h3 className="font-semibold text-sm leading-tight truncate">{task.title}</h3>
             <PriorityIndicator priority={task.priority} />
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 flex-shrink-0">
             <Button
               size="icon"
               variant="ghost"
@@ -75,25 +75,25 @@ export default function TaskCard({ task, onEdit, onDelete, onStatusChange }: Tas
           <p className="text-xs text-muted-foreground line-clamp-2">{task.description}</p>
         )}
         
-        <div className="flex items-center justify-between text-xs">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs">
           <div className="flex items-center gap-1 text-muted-foreground">
-            <Clock className="w-3 h-3" />
+            <Clock className="w-3 h-3 flex-shrink-0" />
             <span>{formatDuration(task.estimatedTime)}</span>
           </div>
           {task.deadline && (
             <div className="flex items-center gap-1 text-muted-foreground">
-              <Calendar className="w-3 h-3" />
-              <span>{task.deadline.toLocaleDateString()}</span>
+              <Calendar className="w-3 h-3 flex-shrink-0" />
+              <span className="truncate">{task.deadline.toLocaleDateString()}</span>
             </div>
           )}
         </div>
 
         <div className="space-y-2">
           <ProgressBar progress={task.progress} size="sm" />
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
             <Badge 
               variant="outline" 
-              className={`text-xs capitalize ${getStatusColor(task.status)}`}
+              className={`text-xs capitalize self-start ${getStatusColor(task.status)}`}
             >
               {task.status}
             </Badge>

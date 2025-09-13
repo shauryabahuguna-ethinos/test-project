@@ -65,7 +65,7 @@ function App() {
             />
             <div className="flex flex-col flex-1">
               {/* Header */}
-              <header className="flex items-center justify-between p-4 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+              <header className="flex items-center justify-between p-3 sm:p-4 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
                 <SidebarTrigger data-testid="button-sidebar-toggle" />
                 <div className="flex items-center gap-2">
                   <ThemeToggle />
@@ -73,7 +73,7 @@ function App() {
               </header>
               
               {/* Main Content */}
-              <main className="flex-1 overflow-auto p-6 bg-background">
+              <main className="flex-1 overflow-auto p-3 sm:p-4 lg:p-6 bg-background">
                 <Router 
                   currentPage={currentPage} 
                   onNavigate={handleNavigation}
